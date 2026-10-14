@@ -58,6 +58,41 @@ Run the integrated pipeline using the main script:
 python safe_seeing.py input_movie.mp4 output_safe_movie.mp4
 ```
 
+## Cloud Pipeline API
+
+We provide a FastAPI-based wrapper to run Safe Seeing as a cloud service.
+
+### Running with Uvicorn
+
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+### Running with Docker
+
+```bash
+docker build -t safe-seeing-pipeline .
+docker run -p 8000:8000 safe-seeing-pipeline
+```
+
+### API Endpoints
+
+- `POST /process`: Upload a video file to start processing. Returns a `task_id`.
+- `GET /status/{task_id}`: Check the status of a processing task.
+- `GET /download/{filename}`: Download the processed video.
+
+## Verification
+
+You can run a smoke test to verify the pipeline logic:
+
+```bash
+# Mock run (simulates AI steps)
+python smoke_test.py --mock
+
+# Real run (requires models and full environment)
+python smoke_test.py
+```
+
 ### Options
 
 - `--model_dir`: Directory where models are stored (default: `models/`)
